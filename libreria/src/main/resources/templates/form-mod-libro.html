@@ -42,7 +42,7 @@
         <h1 class="text-secondary">Modificar libro</h1>
         <div class="card-body">
             <form th:action="@{/libros/modificar-libro/__${libro.id}__}" method="POST">
-                <input hidden th:value="${id}" name="id">
+                <input type="hidden" th:value="${id}" name="id">
                 <p style="color:#FF0000" th:if="${error != null}" th:text="${error}"></p>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">ISBN</label>

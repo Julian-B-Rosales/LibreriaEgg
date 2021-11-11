@@ -73,7 +73,7 @@ public class LibroController {
     }
 
     @GetMapping("/modificar-libro/{id}")
-    public String formModLibro(@PathVariable String id, ModelMap modelo) throws ErrorServicio {
+    public String modificarLibro(@PathVariable String id, ModelMap modelo) throws ErrorServicio {
         Libro libro = libroServicio.buscarLibroPorID(id);
         modelo.addAttribute("libro", libro);
         return "form-mod-libro.html";
@@ -81,7 +81,7 @@ public class LibroController {
     }
 
     @PostMapping("/modificar-libro/{id}")
-    public String formModLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
+    public String modificarLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
         Integer ejemplaresRestantes;
         if(ejemplares != null && ejemplaresPrestados != null){
             ejemplaresRestantes = ejemplares - ejemplaresPrestados;
@@ -89,12 +89,6 @@ public class LibroController {
             ejemplaresRestantes = 0;
         }
         try {
-            modelo.put("isbn", isbn);
-            modelo.put("titulo", titulo);
-            modelo.put("ejemplares", ejemplares);
-            modelo.put("ejemplaresPrestados", ejemplaresPrestados);
-            modelo.put("nombreAutor", nombreAutor);
-            modelo.put("nombreEditorial", nombreEditorial);
             if (alta == null) {
                 alta = false;
             }else{

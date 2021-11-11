@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/libros")
@@ -81,7 +82,12 @@ public class LibroController {
 
     @PostMapping("/modificar-libro/{id}")
     public String formModLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
-        Integer ejemplaresRestantes = 0;
+        Integer ejemplaresRestantes;
+        if(ejemplares != null && ejemplaresPrestados != null){
+            ejemplaresRestantes = ejemplares - ejemplaresPrestados;
+        }else{
+            ejemplaresRestantes = 0;
+        }
         try {
             modelo.put("isbn", isbn);
             modelo.put("titulo", titulo);
@@ -89,9 +95,10 @@ public class LibroController {
             modelo.put("ejemplaresPrestados", ejemplaresPrestados);
             modelo.put("nombreAutor", nombreAutor);
             modelo.put("nombreEditorial", nombreEditorial);
-            ejemplaresRestantes = 1;
             if (alta == null) {
                 alta = false;
+            }else{
+                alta = true;
             }
             libroServicio.modificarLibro(id, alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
             modelo.put("titulo", "Libro modificado exitosamente!");
@@ -104,7 +111,7 @@ public class LibroController {
     }
 
     @GetMapping("/eliminar-libro")
-    public String eliminarLibro(String id, ModelMap modelo) {
+    public String eliminarLibro(String id, ModelMap modelo, RedirectAttributes red) {
         try {
             libroServicio.modificarAltaLibro(Boolean.FALSE, id);
             return "libros";

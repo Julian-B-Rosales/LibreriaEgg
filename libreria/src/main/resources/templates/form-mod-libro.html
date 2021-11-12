@@ -41,49 +41,49 @@
     <div class="card">
         <h1 class="text-secondary">Modificar libro</h1>
         <div class="card-body">
-            <form th:action="@{/libros/modificar-libro/__${libro.id}__}" method="POST">
+            <form th:action="@{/libros/modificar-libro/__${id}__}" method="POST">
                 <input type="hidden" th:value="${id}" name="id">
                 <p style="color:#FF0000" th:if="${error != null}" th:text="${error}"></p>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">ISBN</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.isbn}" type="number" class="form-control" name="isbn">
+                        <input th:value="${libro.isbn}" type="number" class="form-control" name="isbn">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label  class="col-sm-2 col-form-label">Titulo</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.titulo}" type="text" class="form-control" name="titulo">
+                        <input th:value="${libro.titulo}" type="text" class="form-control" name="titulo">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">Año</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.anio}" type="number" class="form-control" name="anio">
+                        <input th:value="${libro.anio}" type="number" class="form-control" name="anio">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">Nombre del autor</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.nombreAutor}" type="text" class="form-control" name="nombreAutor">
+                        <input th:value="${libro.autor.nombre}" type="text" class="form-control" name="nombreAutor">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">Nombre de la editorial</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.nombreEditorial}" type="text" class="form-control" name="nombreEditorial">
+                        <input th:value="${libro.editorial.nombre}" type="text" class="form-control" name="nombreEditorial">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">Numero de ejemplares total</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.ejemplares}" type="number" class="form-control" name=""ejemplares>
+                        <input th:value="${libro.ejemplares}" type="number" class="form-control" name="ejemplares">
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
                     <label class="col-sm-2 col-form-label">Cantidad de ejemplares prestados</label>
                     <div class="col-sm-5">
-                        <input th:value="@{libro.ejemplaresPrestados}" type="number" class="form-control" name="ejemplaresPrestados">
+                        <input th:value="${libro.ejemplaresPrestados}" type="number" class="form-control" name="ejemplaresPrestados">
                     </div>
                 </div>
                 <fieldset class="form-group row justify-content-center">

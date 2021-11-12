@@ -52,7 +52,7 @@
                     <tr th:each="editorial : ${editoriales}">
                         <td th:unless="${editorial.alta}" th:text="${editorial.nombre}"></td>
                         <td th:unless="${editorial.alta}" ><a th:href="@{/editoriales/revivir-editorial/(id=__${editorial.id}__)}" class="btn btn-success" role="button">Dar de alta</a></td>
-                        <td th:unless="${editorial.alta}" ><a th:href="@{/editoriales/form-editorial(id=__${editorial.id}__)}" class="btn btn-primary" role="button">Modificar</a></td>
+                        <td th:unless="${editorial.alta}" ><a th:href="@{/editoriales/modificar-editorial/__${editorial.id}__}" class="btn btn-primary" role="button">Modificar</a></td>
                     </tr>
                 </tbody>
               </table>

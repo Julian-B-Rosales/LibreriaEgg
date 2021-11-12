@@ -24,22 +24,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/editoriales")
 public class EditorialController {
+
     @Autowired
     EditorialServicio editorialServicio;
-    
+
     @GetMapping("")
-    public String editoriales(ModelMap modelo){
+    public String editoriales(ModelMap modelo) {
         List<Editorial> editoriales = editorialServicio.listarEditoriales();
         modelo.put("editoriales", editoriales);
         return "editoriales.html";
     }
+
     @GetMapping("/editoriales-baja")
     public String baja(ModelMap modelo) {
         List<Editorial> editoriales = editorialServicio.listarEditoriales();
         modelo.put("editoriales", editoriales);
         return "editoriales-baja.html";
     }
-    
+
     @GetMapping("/form-editorial")
     public String formEditorial() {
         return "form-editorial.html";
@@ -49,51 +51,45 @@ public class EditorialController {
     public String agregarEditorial(ModelMap modelo, @RequestParam @Nullable String nombre, @RequestParam @Nullable Boolean alta) {
 
         
-        if (alta == null) {
-            alta = false;
-        }
         try {
+            if (alta == null) {
+                alta = false;
+            } else {
+                alta = true;
+            }
             editorialServicio.registrarEditorial(nombre, alta);
+            modelo.put("titulo", "Editorial agregado exitosamente!");
+            return "exito.html";
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             modelo.put("error", ex.getMessage());
             return "form-editorial.html";
         }
-        modelo.put("titulo", "Editorial agregado exitosamente!");
-        return "editoriales.html";
-    }
-    
-    @GetMapping("/form-editorial{id}")
-    public String formModEditorial(@PathVariable String id, ModelMap modelo) {
-        modelo.put("editorial", editorialServicio.buscarEditorialPorID(id));
-        return "form-editorial.html";
+
     }
 
-    @PostMapping("/form-editorial{id}")
-    public String formModEditorial(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre) {
-        try {
-            editorialServicio.modificarEditorial(id, nombre);
-            modelo.put("titulo", "Editorial modificado exitosamente!");
-            return "exito.html";
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
-            modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            return "form-editorial.html";        
-        }
+    @GetMapping("/modificar-editorial/{id}")
+    public String formModEditorial(@PathVariable String id, ModelMap modelo) {
+        modelo.addAttribute("editorial", editorialServicio.buscarEditorialPorID(id));
+        return "form-mod-editorial.html";
     }
-    
-    @PostMapping("/modificar-editorial")
-    public String modificarEditorial(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre) {
+
+    @PostMapping("/modificar-editorial/{id}")
+    public String formModEditorial(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre, @RequestParam @Nullable Boolean alta) {
         try {
-            editorialServicio.modificarEditorial(id, nombre);
+            if (alta == null) {
+                alta = false;
+            } else {
+                alta = true;
+            }
+            editorialServicio.modificarEditorial(id, nombre, alta);
             modelo.put("titulo", "Editorial modificado exitosamente!");
             return "exito.html";
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
-            return "form-editorial.html";        
+            return "form-mod-editorial.html";
         }
     }
 
@@ -108,6 +104,7 @@ public class EditorialController {
             return "editoriales.html";
         }
     }
+
     @GetMapping("/revivir-editorial")
     public String revivirEditorial(String id, ModelMap modelo) {
         try {
@@ -119,5 +116,5 @@ public class EditorialController {
             return "editoriales.html";
         }
     }
-    
+
 }

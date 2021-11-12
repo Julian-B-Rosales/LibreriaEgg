@@ -38,13 +38,14 @@ public class AutorServicio {
         autorRepositorio.save(autor);
     }
     @Transactional 
-    public void modificarAutor(String id, String nombre) throws ErrorServicio{
+    public void modificarAutor(String id, String nombre, Boolean alta) throws ErrorServicio{
         validar(nombre);
         Optional<Autor> res = autorRepositorio.findById(id);
         if(res.isPresent()){
             Autor autor = res.get();
             
             autor.setNombre(nombre);
+            autor.setAlta(alta);
             
             autorRepositorio.save(autor);
         }else{

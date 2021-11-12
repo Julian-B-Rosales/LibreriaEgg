@@ -24,22 +24,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/autores")
 public class AutorController {
+
     @Autowired
     AutorServicio autorServicio;
-    
+
     @GetMapping("")
-    public String autores(ModelMap modelo){
+    public String autores(ModelMap modelo) {
         List<Autor> autores = autorServicio.listarAutores();
         modelo.put("autores", autores);
         return "autores.html";
     }
+
     @GetMapping("/autores-baja")
     public String baja(ModelMap modelo) {
         List<Autor> autores = autorServicio.listarAutores();
         modelo.put("autores", autores);
         return "autores-baja.html";
     }
-    
+
     @GetMapping("/form-autor")
     public String formAutor() {
         return "form-autor.html";
@@ -48,7 +50,6 @@ public class AutorController {
     @PostMapping("/agregar-autor")
     public String agregarAutor(ModelMap modelo, @RequestParam @Nullable String nombre, @RequestParam @Nullable Boolean alta) {
 
-        
         if (alta == null) {
             alta = false;
         }
@@ -60,45 +61,32 @@ public class AutorController {
             return "form-autor.html";
         }
         modelo.put("titulo", "Autor agregado exitosamente!");
-        return "autores.html";
-    }
-    
-    @GetMapping("/form-autor{id}")
-    public String formModAutor(@PathVariable String id, ModelMap modelo) {
-        try {
-            modelo.put("autor", autorServicio.buscarAutorPorID(id));
-            return "form-autor.html";
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(LibroController.class.getName()).log(Level.SEVERE, null, ex);
-            return "autores.html";
-        }
+        return "exito.html";
     }
 
-    @PostMapping("/form-autor{id}")
-    public String formModLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre) {
-        try {
-            autorServicio.modificarAutor(id, nombre);
-            modelo.put("titulo", "Autor modificado exitosamente!");
-            return "exito.html";
-        } catch (ErrorServicio ex) {
-            Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
-            modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            return "form-autor.html";        
-        }
+    @GetMapping("/modificar-autor/{id}")
+    public String formModAutor(@PathVariable String id, ModelMap modelo) throws ErrorServicio {
+
+        modelo.put("autor", autorServicio.buscarAutorPorID(id));
+        return "form-mod-autor.html";
     }
-    
-    @PostMapping("/modificar-autor")
-    public String modificarAutor(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre) {
+
+    @PostMapping("/modificar-autor/{id}")
+    public String formModLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable String nombre, @RequestParam @Nullable Boolean alta) {
         try {
-            autorServicio.modificarAutor(id, nombre);
+            if (alta == null) {
+                alta = false;
+            }else{
+                alta = true;
+            }
+            autorServicio.modificarAutor(id, nombre, alta);
             modelo.put("titulo", "Autor modificado exitosamente!");
             return "exito.html";
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
-            return "form-autor.html";        
+            return "form-mod-autor.html";
         }
     }
 
@@ -113,6 +101,7 @@ public class AutorController {
             return "autores.html";
         }
     }
+
     @GetMapping("/revivir-autor")
     public String revivirAutor(String id, ModelMap modelo) {
         try {
@@ -124,5 +113,5 @@ public class AutorController {
             return "autores.html";
         }
     }
-    
+
 }

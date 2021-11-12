@@ -52,7 +52,7 @@
                     <tr th:each="autor : ${autores}">
                         <td th:unless="${autor.alta}" th:text="${autor.nombre}"></td>
                         <td th:unless="${autor.alta}" ><a th:href="@{/autores/revivir-autor/(id=__${autor.id}__)}" class="btn btn-success" role="button">Dar de alta</a></td>
-                        <td th:unless="${autor.alta}" ><a th:href="@{/autores/form-autor(id=__${autor.id}__)}" class="btn btn-primary" role="button">Modificar</a></td>
+                        <td th:unless="${autor.alta}" ><a th:href="@{/autores/modificar-autor/__${autor.id}__}" class="btn btn-primary" role="button">Modificar</a></td>
                     </tr>
                 </tbody>
               </table>

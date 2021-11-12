@@ -52,7 +52,7 @@
                 <tbody>
                     <tr th:each="autor : ${autores}">
                         <td th:if="${autor.alta}" th:text="${autor.nombre}"></td>
-                        <td th:if="${autor.alta}" ><a th:href="@{/autores/form-autor(id=__${autor.id}__)}" class="btn btn-primary" role="button">Modificar</a></td>
+                        <td th:if="${autor.alta}" ><a th:href="@{/autores/modificar-autor/__${autor.id}__}" class="btn btn-primary" role="button">Modificar</a></td>
                         <td th:if="${autor.alta}" ><a th:href="@{/autores/eliminar-autor/(id=__${autor.id}__)}" class="btn btn-danger"  role="button">Eliminar</a></td>
                     </tr>
                 </tbody>

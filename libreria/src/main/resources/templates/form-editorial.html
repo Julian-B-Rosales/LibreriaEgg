@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar/Modificar editorial</title>
+    <title>Agregar Editorial</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
 <body background="https://www.pixel4k.com/wp-content/uploads/2018/09/books-shelf-graffiti-art-4k_1536098329.jpg">
@@ -36,9 +36,9 @@
       
 <br>
 <div class="card" >
-  <h1 class="text-secondary">Agregar/Modificar editorial</h1>
+  <h1 class="text-secondary">Agregar editorial</h1>
   <div class="card-body">
-    <form th:action="/agregar-editorial" method="post">
+    <form action="/agregar-editorial" method="post">
         <p style="color:#FF0000" th:if="${error != null}" th:text="${error}" ></p>
       <div class="form-group row justify-content-center">
       <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre de la editorial</label>

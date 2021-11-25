@@ -62,8 +62,10 @@ public class EditorialController {
             return "exito.html";
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "form-editorial.html";
+            return "fracaso";
         }
 
     }
@@ -100,8 +102,10 @@ public class EditorialController {
             return "editoriales.html";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "editoriales.html";
+            return "fracaso";
         }
     }
 
@@ -112,8 +116,10 @@ public class EditorialController {
             return "editoriales.html";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "editoriales.html";
+            return "fracaso";
         }
     }
 

@@ -57,8 +57,10 @@ public class AutorController {
             autorServicio.registrarAutor(nombre, alta);
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "form-autor.html";
+            return "fracaso";
         }
         modelo.put("titulo", "Autor agregado exitosamente!");
         return "exito.html";
@@ -97,8 +99,10 @@ public class AutorController {
             return "autores.html";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "autores.html";
+            return "fracaso";
         }
     }
 
@@ -109,8 +113,10 @@ public class AutorController {
             return "autores.html";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "autores.html";
+            return "fracaso";
         }
     }
 

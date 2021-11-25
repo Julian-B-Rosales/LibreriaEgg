@@ -26,6 +26,18 @@ public class Libro {
     private Autor autor;
     @OneToOne
     private Editorial editorial;
+    @OneToOne
+    private Foto foto;
+
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+    
+    
 
     public String getId() {
         return id;

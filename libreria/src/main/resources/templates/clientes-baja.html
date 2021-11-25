@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libros</title>
+    <title>Clientes dados de baja</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
@@ -21,8 +21,8 @@
                 <li class="nav-item">
                   <a class="nav-link" href="/">Inicio</a>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="/libros">Libros<span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                  <a class="nav-link" href="/libros">Libros</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/autores">Autores</a>
@@ -39,37 +39,25 @@
 
     <br>
     <div class="card">
-        <h1 class="text-secondary">Libros</h1>
+        <h1 class="text-secondary">Clientes dados de baja</h1>
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Titulo</th>
-                    <th scope="col">ISBN</th>
-                    <th scope="col">Año</th>
-                    <th scope="col">Ejemplares Restantes</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Editorial</th>
-                    <th><a href="/libros/form-libro" class="btn btn-primary" role="button">Agregar libro</a></th>
-                    <th><a href="/libros/libros-baja" class="btn btn-danger"  role="button">Lista libros dados de baja</a></th>
-                    <th><a href="/clientes" class="btn btn-warning"  role="button">Listar clientes</a></th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">DNI</th>
+                    <th scope="col">Telefono</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="libro : ${libros}">
-                        <td th:if="${libro.alta and libro.foto != null}" ><img th:src="${'/foto/libro/' + libro.id}" class="img-fluid" alt="foto" width="100px" height="100px"></td>
-                        <td th:if="${libro.foto == null}" width="100px"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.titulo}"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.isbn}"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.anio}"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.ejemplaresRestantes}"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.autor.nombre}"></td>
-                        <td th:if="${libro.alta}" th:text="${libro.editorial.nombre}"></td>
-                        <td th:if="${libro.alta}" ><a th:href="@{/libros/modificar-libro/__${libro.id}__}" class="btn btn-primary" role="button">Modificar</a></td>
-                        <td th:if="${libro.alta}" ><a th:href="@{/libros/eliminar-libro/(id=__${libro.id}__)}" class="btn btn-danger"  role="button">Eliminar</a></td>
-                        <td th:if="${libro.alta}" ><a th:href="@{/prestamos/agregar-prestamo/__${libro.id}__}" class="btn btn-success"  role="button">Nuevo prestamo</a></td>
-                        <td th:if="${libro.alta}" ><a th:href="@{/prestamos/listar/__${libro.id}__}" class="btn btn-info"  role="button">Ver prestamos</a></td>
+                    <tr th:each="cliente : ${clientes}">
+                        <td th:unless="${cliente.alta}" th:text="${cliente.apellido}"></td>
+                        <td th:unless="${cliente.alta}" th:text="${cliente.nombre}"></td>
+                        <td th:unless="${cliente.alta}" th:text="${cliente.dni}"></td>
+                        <td th:unless="${cliente.alta}" th:text="${cliente.telefono}"></td>
+                        <td th:unless="${cliente.alta}" ><a th:href="@{/clientes/modificar-cliente/__${cliente.id}__}" class="btn btn-primary" role="button">Modificar</a></td>
+                        <td th:unless="${cliente.alta}" ><a th:href="@{/clientes/dar-de-alta-cliente/(id=__${cliente.id}__)}" class="btn btn-success"  role="button">Dar de alta</a></td>
                     </tr>
                 </tbody>
               </table>

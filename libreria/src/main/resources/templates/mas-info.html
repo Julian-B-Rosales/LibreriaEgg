@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar nuevo libro</title>
+    <title>Mas info</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 </head>
@@ -39,76 +39,40 @@
 
     <br>
     <div class="card">
-        <h1 class="text-secondary">Agregar nuevo libro</h1>
+        <h1 class="text-secondary">Mas informacion del cliente</h1>
         <div class="card-body">
-            <form action="/libros/agregar-libro" method="post" enctype="multipart/form-data">
+            
                 <p style="color:#FF0000" th:if="${error != null}" th:text="${error}"></p>
                 <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">ISBN</label>
+                    <label class="col-sm-2 col-form-label">Apellido</label>
                     <div class="col-sm-5">
-                        <input type="number" class="form-control" name="isbn" th:value="isbn">
+                        <label th:text="${cliente.apellido}" name="apellido"></label>
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Titulo</label>
+                    <label class="col-sm-2 col-form-label">Nombre</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" name="titulo" th:value="titulo">
+                        <label th:text="${cliente.nombre}" name="nombre"></label>
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Foto</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">DNI</label>
                     <div class="col-sm-5">
-                        <input type="file" class="form-control" name="archivo" >
+                        <label th:text="${cliente.dni}" name="dni"></label>
                     </div>
                 </div>
                 <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Año</label>
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Telefono</label>
                     <div class="col-sm-5">
-                        <input type="number" class="form-control" name="anio" th:value="anio">
-                    </div>
-                </div>
-                <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre del autor</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" name="nombreAutor" th:value="nombreAutor">
-                    </div>
-                </div>
-                <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Nombre de la editorial</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" name="nombreEditorial" th:value="nombreEditorial">
-                    </div>
-                </div>
-                <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Numero de ejemplares total</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" name="ejemplares" th:value="ejemplares">
-                    </div>
-                </div>
-                <div class="form-group row justify-content-center">
-                    <label for="inputEmail3" class="col-sm-2 col-form-label">Cantidad de ejemplares prestados</label>
-                    <div class="col-sm-5">
-                        <input type="number" class="form-control" name="ejemplaresPrestados" th:value="ejemplaresPrestados">
-                    </div>
-                </div>
-                <fieldset class="form-group row justify-content-center">
-                </fieldset>
-                <div class="form-group row ">
-                    <div class="col-sm-10 offset-sm-5">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="alta">
-                            <label class="form-check-label" for="gridCheck1">
-                                Dar de alta al crear
-                            </label>
-                        </div>
+                        <label th:text="${cliente.telefono}" name="telefono"></label>
                     </div>
                 </div>
                 <div class="form-group row justify-content-end">
                     <div class="col-sm-2">
-                        <button type="submit" class="btn btn-primary">Agregar libro</button>
+                        <a th:href="@{/clientes/modificar-cliente/__${cliente.id}__}" class="btn btn-primary" role="button">Modificar</a>
                     </div>
                 </div>
-            </form>
+                
         </div>
     </div>
 

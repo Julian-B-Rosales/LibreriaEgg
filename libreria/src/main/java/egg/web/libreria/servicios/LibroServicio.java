@@ -7,6 +7,7 @@ package egg.web.libreria.servicios;
 
 import egg.web.libreria.entidades.Autor;
 import egg.web.libreria.entidades.Editorial;
+import egg.web.libreria.entidades.Foto;
 import egg.web.libreria.entidades.Libro;
 import egg.web.libreria.errores.ErrorServicio;
 import egg.web.libreria.repositorios.AutorRepositorio;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class LibroServicio {
@@ -37,6 +39,9 @@ public class LibroServicio {
 
     @Autowired
     private EditorialServicio editorialServicio;
+    
+    @Autowired
+    private FotoServicio fotoServicio;
 
     public void validarLibro(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
         Autor autor = autorRepositorio.buscarAutorPorNombre(nombreAutor);
@@ -74,7 +79,7 @@ public class LibroServicio {
     }
 
     @Transactional
-    public void registrarLibro(Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
+    public void registrarLibro(MultipartFile archivo, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
         Autor autor;
         if (autorServicio.buscarAutorPorNombre(nombreAutor) != null) {
             autor = autorServicio.buscarAutorPorNombre(nombreAutor);
@@ -103,12 +108,15 @@ public class LibroServicio {
         libro.setEjemplaresRestantes(ejemplaresRestantes);
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
+        
+        Foto foto = fotoServicio.guardar(archivo);
+        libro.setFoto(foto);
 
         libroRepositorio.save(libro);
     }
 
     @Transactional
-    public void modificarLibro(String id, Boolean alta, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
+    public void modificarLibro(MultipartFile archivo, String id, Boolean alta, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
         Autor autor;
         if (autorServicio.buscarAutorPorNombre(nombreAutor) != null) {
             autor = autorServicio.buscarAutorPorNombre(nombreAutor);
@@ -137,6 +145,13 @@ public class LibroServicio {
         libro.setEjemplaresRestantes(ejemplaresRestantes);
         libro.setIsbn(isbn);
         libro.setTitulo(titulo);
+        
+        String idFoto = null;
+        if (libro.getFoto() != null) {
+            idFoto = libro.getFoto().getId();
+        }
+        Foto foto = fotoServicio.actualizar(idFoto, archivo);
+        libro.setFoto(foto);
 
         libroRepositorio.save(libro);
 //        libroRepositorio.modLibro(id, alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
@@ -198,9 +213,9 @@ public class LibroServicio {
         return libroRepositorio.findAll();
     }
 
-    @Transactional
-    public void modificarLibroPorTitulo(Boolean alta, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
-        Libro libro = buscarLibroPorTitulo(titulo);
-        modificarLibro(libro.getId(), alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
-    }
+//    @Transactional
+//    public void modificarLibroPorTitulo(Boolean alta, Long isbn, String titulo, Integer anio, Integer ejemplares, Integer ejemplaresPrestados, Integer ejemplaresRestantes, String nombreAutor, String nombreEditorial) throws ErrorServicio {
+//        Libro libro = buscarLibroPorTitulo(titulo);
+//        modificarLibro(libro.getId(), alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
+//    }
 }

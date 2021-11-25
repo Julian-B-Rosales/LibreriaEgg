@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package egg.web.libreria.controladores;
 
 import egg.web.libreria.entidades.Libro;
@@ -20,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -49,14 +46,14 @@ public class LibroController {
     }
 
     @PostMapping("/agregar-libro")
-    public String agregarLibro(ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
+    public String agregarLibro(@RequestParam @Nullable MultipartFile archivo, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
 
         Integer ejemplaresRestantes = ejemplares - ejemplaresPrestados;
         if (alta == null) {
             alta = false;
         }
         try {
-            libroServicio.registrarLibro(isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
+            libroServicio.registrarLibro(archivo, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
             modelo.put("error", ex.getMessage());
@@ -81,7 +78,7 @@ public class LibroController {
     }
 
     @PostMapping("/modificar-libro/{id}")
-    public String modificarLibro(@PathVariable String id, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
+    public String modificarLibro(@RequestParam @Nullable MultipartFile archivo, @PathVariable String id, ModelMap modelo, @RequestParam @Nullable Long isbn, @RequestParam @Nullable String titulo, @RequestParam @Nullable Integer anio, @RequestParam @Nullable Integer ejemplares, @RequestParam @Nullable Integer ejemplaresPrestados, @RequestParam @Nullable Boolean alta, @RequestParam @Nullable String nombreAutor, @RequestParam @Nullable String nombreEditorial) {
         Integer ejemplaresRestantes;
         if(ejemplares != null && ejemplaresPrestados != null){
             ejemplaresRestantes = ejemplares - ejemplaresPrestados;
@@ -94,13 +91,15 @@ public class LibroController {
             }else{
                 alta = true;
             }
-            libroServicio.modificarLibro(id, alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
+            libroServicio.modificarLibro(archivo, id, alta, isbn, titulo, anio, ejemplares, ejemplaresPrestados, ejemplaresRestantes, nombreAutor, nombreEditorial);
             modelo.put("titulo", "Libro modificado exitosamente!");
             return "exito.html";
         } catch (ErrorServicio ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "form-mod-libro.html";
+            return "fracaso";
         }
     }
 
@@ -111,8 +110,10 @@ public class LibroController {
             return "libros";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "redirect:/libros";
+            return "fracaso";
         }
     }
 
@@ -123,8 +124,10 @@ public class LibroController {
             return "libros";
         } catch (Exception ex) {
             Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+            
+            modelo.put("titulo", "Error");
             modelo.put("error", ex.getMessage());
-            return "redirect:/libros";
+            return "fracaso";
         }
     }
 }
